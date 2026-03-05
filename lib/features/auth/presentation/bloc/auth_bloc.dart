@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:team_flow/features/auth/data/app_user.dart';
 import 'package:team_flow/features/auth/domain/auth_repo.dart';
 
@@ -8,9 +7,9 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthRepo _authRepo = AuthRepo();
+  final AuthRepo _authRepo;
 
-  AuthBloc() : super(AuthInitial()) {
+  AuthBloc(this._authRepo) : super(AuthInitial()) {
     on<AuthLogin>((event, emit) async {
       emit(AuthLoading());
       try {
@@ -42,17 +41,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoading());
       try {
         await _authRepo.signOut();
-        emit(AuthSuccess(null));
+        emit(AuthUnauthenticated());
       } catch (e) {
         emit(AuthError(e.toString()));
       }
     });
 
     on<AuthChangePassword>((event, emit) async {
+      final currentState = state;
       emit(AuthLoading());
       try {
         await _authRepo.changePassword(event.newPassword);
-        emit(AuthSuccess(null));
+        if (currentState is AuthSuccess) {
+          emit(AuthSuccess((state as AuthSuccess).appUserModel));
+        }
       } catch (e) {
         emit(AuthError(e.toString()));
       }

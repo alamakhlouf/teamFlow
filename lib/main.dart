@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:team_flow/features/auth/domain/auth_repo.dart';
 import 'package:team_flow/features/auth/presentation/screens/login_screen.dart';
 
 import 'core/config/app_router.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => AuthBloc())],
+      providers: [BlocProvider(create: (context) => AuthBloc(AuthRepo()))],
       child: MaterialApp(
         showSemanticsDebugger: false,
         debugShowCheckedModeBanner: false,
