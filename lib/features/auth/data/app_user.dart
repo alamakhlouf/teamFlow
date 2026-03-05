@@ -3,6 +3,7 @@ class AppUserModel {
   final String email;
   final String displayName;
   final String role;
+  final String? managerId;
   final bool firstLogin;
 
   const AppUserModel({
@@ -11,6 +12,7 @@ class AppUserModel {
     required this.displayName,
     required this.role,
     required this.firstLogin,
+    this.managerId,
   });
 
   /// From Firestore / JSON
@@ -21,6 +23,7 @@ class AppUserModel {
       displayName: json['displayName'] as String,
       role: json['role'] as String,
       firstLogin: json['firstLogin'] as bool,
+      managerId: json['managerId'],
     );
   }
 
@@ -32,6 +35,7 @@ class AppUserModel {
       'displayName': displayName,
       'role': role,
       'firstLogin': firstLogin,
+      'managerId': managerId,
     };
   }
 
@@ -42,19 +46,21 @@ class AppUserModel {
     String? displayName,
     String? role,
     bool? firstLogin,
+    String? managerId,
   }) {
     return AppUserModel(
       uid: uid ?? this.uid,
       email: email ?? this.email,
       displayName: displayName ?? this.displayName,
       role: role ?? this.role,
-        firstLogin : firstLogin ?? this.firstLogin,
+      firstLogin: firstLogin ?? this.firstLogin,
+      managerId: managerId ?? this.managerId,
     );
   }
 
   @override
   String toString() {
-    return 'AppUser(uid: $uid, email: $email, displayName: $displayName, role: $role, firstLogin: $firstLogin)';
+    return 'AppUser(uid: $uid, email: $email, displayName: $displayName, role: $role, firstLogin: $firstLogin, managerId: $managerId)';
   }
 
   @override
@@ -65,9 +71,14 @@ class AppUserModel {
           uid == other.uid &&
           email == other.email &&
           displayName == other.displayName &&
-          role == other.role && firstLogin == other.firstLogin;
+          role == other.role &&
+          firstLogin == other.firstLogin;
 
   @override
   int get hashCode =>
-      uid.hashCode ^ email.hashCode ^ displayName.hashCode ^ role.hashCode ^ firstLogin.hashCode;
+      uid.hashCode ^
+      email.hashCode ^
+      displayName.hashCode ^
+      role.hashCode ^
+      firstLogin.hashCode;
 }
