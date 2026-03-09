@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_flow/features/users/domain/users_repo.dart';
 
 import '../../../auth/data/app_user.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../data/manager_model.dart';
 import '../bloc/managers_bloc/manager_bloc.dart';
 import '../bloc/users_bloc/users_bloc.dart';
@@ -41,7 +42,7 @@ class UsersScreen extends StatelessWidget {
                   subtitle: Text(user.email),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children:  context.read<AuthBloc>().state is AuthSuccess && (context.read<AuthBloc>().state as AuthSuccess).appUserModel.role == "admin" ? [
                       IconButton(
                         icon: const Icon(Icons.edit, color: Colors.green),
                         onPressed: () {
@@ -68,7 +69,7 @@ class UsersScreen extends StatelessWidget {
                           context.read<UsersBloc>().add(UsersDelete(user.uid));
                         },
                       ),
-                    ],
+                    ] : [],
                   ),
                 );
               },
@@ -79,7 +80,7 @@ class UsersScreen extends StatelessWidget {
           return const SizedBox();
         },
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton:context.read<AuthBloc>().state is AuthSuccess && (context.read<AuthBloc>().state as AuthSuccess).appUserModel.role == "admin" ?  FloatingActionButton(
         onPressed: () {
           final usersBloc = context.read<UsersBloc>();
           showDialog(
@@ -97,7 +98,7 @@ class UsersScreen extends StatelessWidget {
           );
         },
         child: const Icon(Icons.add),
-      ),
+      ) : null,
     );
   }
 }
