@@ -1,17 +1,157 @@
-# team_flow
+# 🚀 TeamFlow
 
-Project to manage tasks between projects
+A Flutter-based task and project management application designed to streamline collaboration between **Admins**, **Managers**, and **Employees**.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 📱 Overview
 
-A few resources to get you started if this is your first Flutter project:
+**TeamFlow** allows organizations to:
+- Manage users with different roles
+- Create and assign projects
+- Break projects into tasks
+- Track task progress in real-time
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+The app is built using **Flutter**, **Firebase Authentication**, **Cloud Firestore**, and **BLoC architecture**.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🧩 Features
+
+### 🔐 Authentication
+- Email & password login
+- User registration (Admin only)
+- Logout
+- First login password reset flow
+
+---
+
+### 👥 User Management (Admin)
+- Create users
+- Update user details
+- Delete users
+- Assign managers to users
+
+---
+
+### 📁 Project Management
+- Managers can create projects
+- Assign employees to projects
+- Update and delete projects
+
+#### Role-based visibility:
+- **Admin** → sees all projects  
+- **Manager** → sees owned projects  
+- **User** → sees assigned projects  
+
+---
+
+### ✅ Task Management
+- Create tasks inside projects
+- Assign tasks to employees
+- Update task details
+- Delete tasks
+
+#### Permissions:
+- **Admin / Manager**
+  - Create / Edit / Delete tasks
+  - Assign tasks
+
+- **User**
+  - Can ONLY update task status
+
+---
+
+### 🔄 Real-time Updates
+- All users, projects, and tasks update instantly using Firestore streams
+
+---
+
+### 👤 Profile
+- View user info:
+  - Name
+  - Email
+  - Role
+  - Manager (if assigned)
+
+---
+
+## 🏗️ Architecture
+
+The app follows Clean Architecture principles:
+
+features/
+ ├── auth/
+ ├── users/
+ ├── projects/
+ ├── tasks/
+ ├── profile/
+
+Each feature contains:
+- data → models  
+- domain → repositories  
+- presentation → UI + BLoC  
+
+---
+
+## 🔄 State Management
+
+Uses BLoC (flutter_bloc):
+- Clear separation between UI and business logic
+- Event-driven architecture
+- Scalable and maintainable
+
+---
+
+## ☁️ Firebase Structure
+
+### users
+users/{userId}
+- uid
+- email
+- displayName
+- role
+- managerId
+- firstLogin
+
+### projects
+projects/{projectId}
+- id
+- title
+- description
+- managerId
+- employeeIds
+
+### tasks
+projects/{projectId}/tasks/{taskId}
+- id
+- title
+- description
+- assignedTo
+- status
+- createdAt
+
+---
+
+## 🛠️ Tech Stack
+
+- Flutter
+- Dart
+- Firebase Auth
+- Cloud Firestore
+- flutter_bloc
+
+---
+
+## ▶️ Getting Started
+
+git clone https://github.com/your-username/team_flow.git
+cd team_flow
+flutter pub get
+flutter run
+
+---
+
+## 💡 Author
+
+Developed by Ala Makhlouf
